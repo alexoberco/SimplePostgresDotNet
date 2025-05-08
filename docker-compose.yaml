@@ -16,5 +16,19 @@ services:
     ports:
       - "8080:8080"
     restart: always
+
+  api:
+    build:
+      context: .
+      dockerfile: ProductsService.API/Dockerfile
+    ports:
+      - "5279:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=baseTaller;Username=admin;Password=admin"
+      ASPNETCORE_URLS: http://+:80
+    depends_on:
+      - db
+    restart: on-failure
 volumes:
   pgdata:
